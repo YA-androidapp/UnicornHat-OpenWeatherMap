@@ -9,16 +9,6 @@ import json
 import requests
 
 
-ini = configparser.ConfigParser()
-ini.read('./config.ini', 'UTF-8')
-
-
-city = "Tokyo,jp"
-key = ini['api']['key']
-url = 'http://api.openweathermap.org/data/2.5/forecast?units=metric&q=' + \
-    city + '&APPID=' + key
-
-
 def utc_to_jst(timestamp_utc):
     datetime_utc = datetime.datetime.strptime(
         timestamp_utc + "+0000", "%Y-%m-%d %H:%M:%S%z")
@@ -29,16 +19,36 @@ def utc_to_jst(timestamp_utc):
     return timestamp_jst
 
 
-print(url)
-response = requests.get(url)
+def main():
+    ini = configparser.ConfigParser()
+    ini.read('./config.ini', 'UTF-8')
 
-data = json.loads(response.text)
+    city = "Tokyo,jp"
+    key = ini['api']['key']
+    url = 'http://api.openweathermap.org/data/2.5/forecast?units=metric&q=' + \
+        city + '&APPID=' + key
 
-for i in range(len(data["list"])):
-    print(utc_to_jst(data["list"][i]["dt_txt"]))
-    print("   main", data["list"][i]["weather"][0]["main"])
-    print("   temp", data["list"][i]["main"]["temp"])
-    print("   pressure:", data["list"][i]["main"]["pressure"])
-    print("   humidity:", data["list"][i]["main"]["humidity"])
-    print("   temp_min:", data["list"][i]["main"]["temp_min"])
-    print("   temp_max:", data["list"][i]["main"]["temp_max"])
+    print(url)
+    response = requests.get(url)
+    data = json.loads(response.text)
+
+    id_list = []
+
+    for i in range(len(data["list"])):
+        print(utc_to_jst(data["list"][i]["dt_txt"]))
+        print("   main", data["list"][i]["weather"][0]["id"])
+        print("   main", data["list"][i]["weather"][0]["main"])
+        print("   temp", data["list"][i]["main"]["temp"])
+        print("   pressure:", data["list"][i]["main"]["pressure"])
+        print("   humidity:", data["list"][i]["main"]["humidity"])
+        print("   temp_min:", data["list"][i]["main"]["temp_min"])
+        print("   temp_max:", data["list"][i]["main"]["temp_max"])
+
+        # Weather condition codes
+        id_list.append(data["list"][i]["weather"][0]["id"])
+
+    return id_list
+
+
+if __name__ == "__main__":
+    print(main())
