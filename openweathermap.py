@@ -11,7 +11,7 @@ import requests
 import sys
 import time
 
-IS_DEBUG = True
+IS_DEBUG = False
 
 if False == IS_DEBUG:
     import unicornhat as unicorn
@@ -111,19 +111,22 @@ def show(args):
     for index in range(len_args+1):
         # 内側
         # print(WEATHER_LABEL[args[index]])
-        show_leds(0, *WEATHER_LABEL[args[index]])
+        show_leds(0, *WEATHER_LABEL[str(args[index])])
         # print(WEATHER_LABEL[args[index+1]])
-        show_leds(1, *WEATHER_LABEL[args[index + 1]])
+        show_leds(1, *WEATHER_LABEL[str(args[index + 1])])
         # print(WEATHER_LABEL[args[index+2]])
-        show_leds(2, *WEATHER_LABEL[args[index + 2]])
+        show_leds(2, *WEATHER_LABEL[str(args[index + 2])])
         # print(WEATHER_LABEL[args[index + 3]])
-        show_leds(3, *WEATHER_LABEL[args[index + 3]])
-        print('------------')
+        show_leds(3, *WEATHER_LABEL[str(args[index + 3])])
+
         if False == IS_DEBUG:
             unicorn.show()
+            time.sleep(1)
+            unicorn.clear()
 
-    time.sleep(1)
-
+        print('------------')
+        
+    # time.sleep(5)
 
 def show_leds(num, r, g, b):
     print('{} {} {} {}'.format(num, r, g, b))
@@ -214,11 +217,11 @@ def show_temp(min_list, max_list):
         min_list.append(min_list[len(min_list)-1])
         max_list.append(max_list[len(max_list)-1])
 
-    if True == IS_DEBUG:
-        print('min_list')
-        print(min_list)
-        print('max_list')
-        print(max_list)
+    # if True == IS_DEBUG:
+    print('min_list')
+    print(min_list)
+    print('max_list')
+    print(max_list)
 
     min_minlist = min(min_list)
     max_minlist = max(min_list)
@@ -251,24 +254,25 @@ def show_temp(min_list, max_list):
     #  リストを走査しながらLEDに出力
     for index in range(len_lists+1):
         # 左側
-        if True == IS_DEBUG:
-            print(min_list[index])
-            print(min_list[index + 1])
-            print(min_list[index + 2])
-            print(min_list[index + 3])
-            print(min_list[index + 4])
-            print(min_list[index + 5])
-            print(min_list[index + 6])
-            print(min_list[index + 7])
-            print('-----')
-            print(max_list[index])
-            print(max_list[index + 1])
-            print(max_list[index + 2])
-            print(max_list[index + 3])
-            print(max_list[index + 4])
-            print(max_list[index + 5])
-            print(max_list[index + 6])
-            print(max_list[index + 7])
+        # if True == IS_DEBUG:
+        print(min_list[index])
+        print(min_list[index + 1])
+        print(min_list[index + 2])
+        print(min_list[index + 3])
+        print(min_list[index + 4])
+        print(min_list[index + 5])
+        print(min_list[index + 6])
+        print(min_list[index + 7])
+        print('-----')
+        print(max_list[index])
+        print(max_list[index + 1])
+        print(max_list[index + 2])
+        print(max_list[index + 3])
+        print(max_list[index + 4])
+        print(max_list[index + 5])
+        print(max_list[index + 6])
+        print(max_list[index + 7])
+
         if False == IS_DEBUG:
             unicorn.set_pixel(0, min_list[index], 0, 255, 234)
             unicorn.set_pixel(1, min_list[index+1], 0, 255, 234)
@@ -288,12 +292,14 @@ def show_temp(min_list, max_list):
             unicorn.set_pixel(6, max_list[index+6], 235, 149, 52)
             unicorn.set_pixel(7, max_list[index + 7], 235, 149, 52)
 
-        print('------------')
-
         if False == IS_DEBUG:
             unicorn.show()
+            time.sleep(1)
+            unicorn.clear()
 
-    time.sleep(1)
+        print('------------')
+
+    # time.sleep(5)
 
 
 def utc_to_jst(timestamp_utc):
@@ -340,16 +346,14 @@ def main():
         temp_min = 0
         temp_max = 0
         try:
-            if data["list"][i]["main"]["temp_min"].isnumeric():
-                temp_min = float(data["list"][i]["main"]["temp_min"])
-        except:
-            pass
+            temp_min = float(data["list"][i]["main"]["temp_min"])
+        except Exception as e:
+            print(e)
 
         try:
-            if data["list"][i]["main"]["temp_max"].isnumeric():
-                temp_max = float(data["list"][i]["main"]["temp_max"])
-        except:
-            pass
+            temp_max = float(data["list"][i]["main"]["temp_max"])
+        except Exception as e:
+            print(e)
 
         min_list.append(temp_min)
         max_list.append(temp_max)
