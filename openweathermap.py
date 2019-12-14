@@ -6,10 +6,15 @@
 import configparser
 import datetime
 import json
+import math
 import requests
 import sys
 import time
-import unicornhat as unicorn
+
+IS_DEBUG = True
+
+if False == IS_DEBUG:
+    import unicornhat as unicorn
 
 
 WEATHER_LABEL = {
@@ -80,9 +85,9 @@ WEATHER_LABEL = {
 
 
 def show(args):
-    # for test
-    args = ['803', '804', '804', '804', '500', '500', '804', '803', '802', '800', '800', '800', '800', '800', '800', '800', '800', '800', '800', '800',
-            '802', '804', '804', '804', '804', '500', '500', '804', '500', '500', '500', '500', '804', '804', '804', '804', '500', '500', '803', '803']
+    if True == IS_DEBUG:
+        args = ['803', '804', '804', '804', '500', '500', '804', '803', '802', '800', '800', '800', '800', '800', '800', '800', '800', '800', '800', '800',
+                '802', '804', '804', '804', '804', '500', '500', '804', '500', '500', '500', '500', '804', '804', '804', '804', '500', '500', '803', '803']
 
     # ダミー要素を追加する前にリストの長さを取得
     len_args = len(args)
@@ -94,11 +99,12 @@ def show(args):
     print('args')
     print(args)
 
-    # Unicorn HATの設定
-    unicorn.set_layout(unicorn.AUTO)
-    unicorn.rotation(0)
-    unicorn.brightness(0.5)
-    width, height = unicorn.get_shape()
+    if False == IS_DEBUG:
+        # Unicorn HATの設定
+        unicorn.set_layout(unicorn.AUTO)
+        unicorn.rotation(0)
+        unicorn.brightness(0.5)
+        width, height = unicorn.get_shape()
 
     #  リストを走査しながらLEDに出力
     print('for')
@@ -113,81 +119,181 @@ def show(args):
         # print(WEATHER_LABEL[args[index + 3]])
         show_leds(3, *WEATHER_LABEL[args[index + 3]])
         print('------------')
-        unicorn.show()
+        if False == IS_DEBUG:
+            unicorn.show()
 
     time.sleep(1)
 
 
 def show_leds(num, r, g, b):
     print('{} {} {} {}'.format(num, r, g, b))
-    if 0 == num:
-        unicorn.set_pixel(3, 3, r, g, b)
-        unicorn.set_pixel(3, 4, r, g, b)
-        unicorn.set_pixel(4, 3, r, g, b)
-        unicorn.set_pixel(4, 4, r, g, b)
-    elif 1 == num:
-        unicorn.set_pixel(2, 2, r, g, b)
-        unicorn.set_pixel(2, 3, r, g, b)
-        unicorn.set_pixel(2, 4, r, g, b)
-        unicorn.set_pixel(2, 5, r, g, b)
-        unicorn.set_pixel(3, 2, r, g, b)
-        unicorn.set_pixel(3, 5, r, g, b)
-        unicorn.set_pixel(4, 2, r, g, b)
-        unicorn.set_pixel(4, 5, r, g, b)
-        unicorn.set_pixel(5, 2, r, g, b)
-        unicorn.set_pixel(5, 3, r, g, b)
-        unicorn.set_pixel(5, 4, r, g, b)
-        unicorn.set_pixel(5, 5, r, g, b)
-    elif 2 == num:
-        unicorn.set_pixel(1, 1, r, g, b)
-        unicorn.set_pixel(1, 2, r, g, b)
-        unicorn.set_pixel(1, 3, r, g, b)
-        unicorn.set_pixel(1, 4, r, g, b)
-        unicorn.set_pixel(1, 5, r, g, b)
-        unicorn.set_pixel(1, 6, r, g, b)
-        unicorn.set_pixel(2, 1, r, g, b)
-        unicorn.set_pixel(2, 6, r, g, b)
-        unicorn.set_pixel(3, 1, r, g, b)
-        unicorn.set_pixel(3, 6, r, g, b)
-        unicorn.set_pixel(4, 1, r, g, b)
-        unicorn.set_pixel(4, 6, r, g, b)
-        unicorn.set_pixel(5, 1, r, g, b)
-        unicorn.set_pixel(5, 6, r, g, b)
-        unicorn.set_pixel(6, 1, r, g, b)
-        unicorn.set_pixel(6, 2, r, g, b)
-        unicorn.set_pixel(6, 3, r, g, b)
-        unicorn.set_pixel(6, 4, r, g, b)
-        unicorn.set_pixel(6, 5, r, g, b)
-        unicorn.set_pixel(6, 6, r, g, b)
-    elif 3 == num:
-        unicorn.set_pixel(0, 0, r, g, b)
-        unicorn.set_pixel(0, 1, r, g, b)
-        unicorn.set_pixel(0, 2, r, g, b)
-        unicorn.set_pixel(0, 3, r, g, b)
-        unicorn.set_pixel(0, 4, r, g, b)
-        unicorn.set_pixel(0, 5, r, g, b)
-        unicorn.set_pixel(0, 6, r, g, b)
-        unicorn.set_pixel(0, 7, r, g, b)
-        unicorn.set_pixel(1, 0, r, g, b)
-        unicorn.set_pixel(1, 7, r, g, b)
-        unicorn.set_pixel(2, 0, r, g, b)
-        unicorn.set_pixel(2, 7, r, g, b)
-        unicorn.set_pixel(3, 0, r, g, b)
-        unicorn.set_pixel(3, 7, r, g, b)
-        unicorn.set_pixel(4, 0, r, g, b)
-        unicorn.set_pixel(4, 7, r, g, b)
-        unicorn.set_pixel(5, 0, r, g, b)
-        unicorn.set_pixel(5, 7, r, g, b)
-        unicorn.set_pixel(6, 0, r, g, b)
-        unicorn.set_pixel(6, 7, r, g, b)
-        unicorn.set_pixel(7, 0, r, g, b)
-        unicorn.set_pixel(7, 1, r, g, b)
-        unicorn.set_pixel(7, 2, r, g, b)
-        unicorn.set_pixel(7, 3, r, g, b)
-        unicorn.set_pixel(7, 4, r, g, b)
-        unicorn.set_pixel(7, 5, r, g, b)
-        unicorn.set_pixel(7, 6, r, g, b)
-        unicorn.set_pixel(7, 7, r, g, b)
+    if False == IS_DEBUG:
+        if 0 == num:
+            unicorn.set_pixel(3, 3, r, g, b)
+            unicorn.set_pixel(3, 4, r, g, b)
+            unicorn.set_pixel(4, 3, r, g, b)
+            unicorn.set_pixel(4, 4, r, g, b)
+        elif 1 == num:
+            unicorn.set_pixel(2, 2, r, g, b)
+            unicorn.set_pixel(2, 3, r, g, b)
+            unicorn.set_pixel(2, 4, r, g, b)
+            unicorn.set_pixel(2, 5, r, g, b)
+            unicorn.set_pixel(3, 2, r, g, b)
+            unicorn.set_pixel(3, 5, r, g, b)
+            unicorn.set_pixel(4, 2, r, g, b)
+            unicorn.set_pixel(4, 5, r, g, b)
+            unicorn.set_pixel(5, 2, r, g, b)
+            unicorn.set_pixel(5, 3, r, g, b)
+            unicorn.set_pixel(5, 4, r, g, b)
+            unicorn.set_pixel(5, 5, r, g, b)
+        elif 2 == num:
+            unicorn.set_pixel(1, 1, r, g, b)
+            unicorn.set_pixel(1, 2, r, g, b)
+            unicorn.set_pixel(1, 3, r, g, b)
+            unicorn.set_pixel(1, 4, r, g, b)
+            unicorn.set_pixel(1, 5, r, g, b)
+            unicorn.set_pixel(1, 6, r, g, b)
+            unicorn.set_pixel(2, 1, r, g, b)
+            unicorn.set_pixel(2, 6, r, g, b)
+            unicorn.set_pixel(3, 1, r, g, b)
+            unicorn.set_pixel(3, 6, r, g, b)
+            unicorn.set_pixel(4, 1, r, g, b)
+            unicorn.set_pixel(4, 6, r, g, b)
+            unicorn.set_pixel(5, 1, r, g, b)
+            unicorn.set_pixel(5, 6, r, g, b)
+            unicorn.set_pixel(6, 1, r, g, b)
+            unicorn.set_pixel(6, 2, r, g, b)
+            unicorn.set_pixel(6, 3, r, g, b)
+            unicorn.set_pixel(6, 4, r, g, b)
+            unicorn.set_pixel(6, 5, r, g, b)
+            unicorn.set_pixel(6, 6, r, g, b)
+        elif 3 == num:
+            unicorn.set_pixel(0, 0, r, g, b)
+            unicorn.set_pixel(0, 1, r, g, b)
+            unicorn.set_pixel(0, 2, r, g, b)
+            unicorn.set_pixel(0, 3, r, g, b)
+            unicorn.set_pixel(0, 4, r, g, b)
+            unicorn.set_pixel(0, 5, r, g, b)
+            unicorn.set_pixel(0, 6, r, g, b)
+            unicorn.set_pixel(0, 7, r, g, b)
+            unicorn.set_pixel(1, 0, r, g, b)
+            unicorn.set_pixel(1, 7, r, g, b)
+            unicorn.set_pixel(2, 0, r, g, b)
+            unicorn.set_pixel(2, 7, r, g, b)
+            unicorn.set_pixel(3, 0, r, g, b)
+            unicorn.set_pixel(3, 7, r, g, b)
+            unicorn.set_pixel(4, 0, r, g, b)
+            unicorn.set_pixel(4, 7, r, g, b)
+            unicorn.set_pixel(5, 0, r, g, b)
+            unicorn.set_pixel(5, 7, r, g, b)
+            unicorn.set_pixel(6, 0, r, g, b)
+            unicorn.set_pixel(6, 7, r, g, b)
+            unicorn.set_pixel(7, 0, r, g, b)
+            unicorn.set_pixel(7, 1, r, g, b)
+            unicorn.set_pixel(7, 2, r, g, b)
+            unicorn.set_pixel(7, 3, r, g, b)
+            unicorn.set_pixel(7, 4, r, g, b)
+            unicorn.set_pixel(7, 5, r, g, b)
+            unicorn.set_pixel(7, 6, r, g, b)
+            unicorn.set_pixel(7, 7, r, g, b)
+
+
+def show_temp(min_list, max_list):
+    if True == IS_DEBUG:
+        min_list = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10,
+                    9, 8, 7, 6, 5, 4, 3, 2, 1, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0.5]
+        max_list = [30, 31, 32, 33, 34, 35, 20, 21, 22, 23, 24, 25, 26, 27, 20, 15, 25, 20, 15, 10,
+                    10, 10, 10, 10, 10, 10, 5, 5, 4.5, 25, 25, 25, 25, 25, 15, 15, 15, 15, 15, 15]
+
+    # ダミー要素を追加する前にリストの長さを取得
+    len_lists = min(len(min_list), len(max_list))
+    print('len: {}'.format(len_lists))
+
+    # 8末尾にダミーの要素を追加
+    for i in range(8):
+        min_list.append(min_list[len(min_list)-1])
+        max_list.append(max_list[len(max_list)-1])
+
+    if True == IS_DEBUG:
+        print('min_list')
+        print(min_list)
+        print('max_list')
+        print(max_list)
+
+    min_minlist = min(min_list)
+    max_minlist = max(min_list)
+    min_maxlist = min(max_list)
+    max_maxlist = max(max_list)
+    min_all = min(min_minlist, min_maxlist)
+    max_all = max(max_minlist, max_maxlist)
+    if min_all == max_all:
+        min_all -= 1
+
+    if True == IS_DEBUG:
+        print('minmax: {} {} {} {} {} {}'.format(
+            min_minlist, max_minlist, min_maxlist, max_maxlist, min_all, max_all))
+
+    for i, itemi in enumerate(min_list):
+        min_list[i] = 7 - \
+            math.floor(7 * ((itemi - min_all) / (max_all - min_all)))
+
+    for j, itemj in enumerate(max_list):
+        max_list[j] = 7 - \
+            math.floor(7 * ((itemj - min_all) / (max_all - min_all)))
+
+    if False == IS_DEBUG:
+        # Unicorn HATの設定
+        unicorn.set_layout(unicorn.AUTO)
+        unicorn.rotation(0)
+        unicorn.brightness(0.5)
+        width, height = unicorn.get_shape()
+
+    #  リストを走査しながらLEDに出力
+    for index in range(len_lists+1):
+        # 左側
+        if True == IS_DEBUG:
+            print(min_list[index])
+            print(min_list[index + 1])
+            print(min_list[index + 2])
+            print(min_list[index + 3])
+            print(min_list[index + 4])
+            print(min_list[index + 5])
+            print(min_list[index + 6])
+            print(min_list[index + 7])
+            print('-----')
+            print(max_list[index])
+            print(max_list[index + 1])
+            print(max_list[index + 2])
+            print(max_list[index + 3])
+            print(max_list[index + 4])
+            print(max_list[index + 5])
+            print(max_list[index + 6])
+            print(max_list[index + 7])
+        if False == IS_DEBUG:
+            unicorn.set_pixel(0, min_list[index], 0, 255, 234)
+            unicorn.set_pixel(1, min_list[index+1], 0, 255, 234)
+            unicorn.set_pixel(2, min_list[index+2], 0, 255, 234)
+            unicorn.set_pixel(3, min_list[index+3], 0, 255, 234)
+            unicorn.set_pixel(4, min_list[index+4], 0, 255, 234)
+            unicorn.set_pixel(5, min_list[index+5], 0, 255, 234)
+            unicorn.set_pixel(6, min_list[index+6], 0, 255, 234)
+            unicorn.set_pixel(7, min_list[index + 7], 0, 255, 234)
+
+            unicorn.set_pixel(0, max_list[index], 235, 149, 52)
+            unicorn.set_pixel(1, max_list[index+1], 235, 149, 52)
+            unicorn.set_pixel(2, max_list[index+2], 235, 149, 52)
+            unicorn.set_pixel(3, max_list[index+3], 235, 149, 52)
+            unicorn.set_pixel(4, max_list[index+4], 235, 149, 52)
+            unicorn.set_pixel(5, max_list[index+5], 235, 149, 52)
+            unicorn.set_pixel(6, max_list[index+6], 235, 149, 52)
+            unicorn.set_pixel(7, max_list[index + 7], 235, 149, 52)
+
+        print('------------')
+
+        if False == IS_DEBUG:
+            unicorn.show()
+
+    time.sleep(1)
 
 
 def utc_to_jst(timestamp_utc):
@@ -214,6 +320,8 @@ def main():
     data = json.loads(response.text)
 
     id_list = []
+    min_list = []
+    max_list = []
 
     for i in range(len(data["list"])):
         print(utc_to_jst(data["list"][i]["dt_txt"]))
@@ -228,8 +336,27 @@ def main():
         # Weather condition codes
         id_list.append(data["list"][i]["weather"][0]["id"])
 
+        # temp
+        temp_min = 0
+        temp_max = 0
+        try:
+            if data["list"][i]["main"]["temp_min"].isnumeric():
+                temp_min = float(data["list"][i]["main"]["temp_min"])
+        except:
+            pass
+
+        try:
+            if data["list"][i]["main"]["temp_max"].isnumeric():
+                temp_max = float(data["list"][i]["main"]["temp_max"])
+        except:
+            pass
+
+        min_list.append(temp_min)
+        max_list.append(temp_max)
+
     show(id_list)
+    show_temp(min_list, max_list)
 
 
 if __name__ == "__main__":
-    print(main())
+    main()
