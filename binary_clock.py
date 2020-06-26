@@ -274,12 +274,7 @@ def alarm(t, c):
 # this is the main function, will get the current time and display each time and check the alarm
 def binary_clock():
     try:
-        run_i = 0
         while True:
-
-            if run_i > 57 * 60:  # for using other scripts
-                break
-
             now = datetime.datetime.now()
 
             # draw each time string in their specific locations
@@ -319,8 +314,6 @@ def binary_clock():
 
             # sleep for 1 second, because we don't want to waste unnecessary CPU
             sleep(1)
-
-            run_i += 1
 
     except Exception as e:
         print(e)
