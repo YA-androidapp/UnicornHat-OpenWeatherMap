@@ -175,8 +175,8 @@ def show_min(x, tp):
 def show_weather(ids, maxs, mins):
     for i in range(8):
         show_id(i, ids[i])
-        show_max(x, maxs[i])
-        show_min(x, mins[i])
+        show_max(i, maxs[i])
+        show_min(i, mins[i])
 
 
 def utc_to_jst(timestamp_utc):
