@@ -161,15 +161,15 @@ def draw_time_string(time_string, length, offset, row, colour):
 
 
 def show_id(x, index):
-    unicorn.set_pixel(x, 5, *WEATHER_LABEL[str(index)])
+    unicornhat.set_pixel(x, 5, *WEATHER_LABEL[str(index)])
 
 
 def show_max(x, tp):
-    unicorn.set_pixel(x, 6, *TEMP_LABEL[tp // 5])
+    unicornhat.set_pixel(x, 6, *TEMP_LABEL[tp // 5])
 
 
 def show_min(x, tp):
-    unicorn.set_pixel(x, 7, *TEMP_LABEL[tp // 5])
+    unicornhat.set_pixel(x, 7, *TEMP_LABEL[tp // 5])
 
 
 def show_weather(ids, maxs, mins):
