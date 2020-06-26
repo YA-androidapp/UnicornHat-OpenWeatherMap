@@ -277,6 +277,9 @@ def binary_clock():
         while True:
             now = datetime.datetime.now()
 
+            if (55 == now.minute % 60) and (0 == now.second % 60):
+                ids, mins, maxs = get_owm()
+
             # draw each time string in their specific locations
             draw_time_string(now.month, 4, 4, 0, magenta)
 
