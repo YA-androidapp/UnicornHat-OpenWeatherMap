@@ -1,1 +1,1 @@
-55 * * * * cd /home/pi/UnicornHat-OpenWeatherMap && ./openweathermap.py ; ./binary_clock.py
+@reboot cd /home/pi/UnicornHat-OpenWeatherMap && git fetch origin && git reset --hard origin/master && chmod +x *.py && python3 ./binary_clock.py

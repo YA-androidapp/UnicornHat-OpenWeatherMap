@@ -238,6 +238,9 @@ def get_owm():
     return id_list, min_list, max_list
 
 
+ids = []
+mins = []
+maxs = []
 ids, mins, maxs = get_owm()
 
 # this function will make use of the remaining space to light up when indicated
@@ -273,6 +276,10 @@ def alarm(t, c):
 
 # this is the main function, will get the current time and display each time and check the alarm
 def binary_clock():
+    global ids
+    global mins
+    global maxs
+
     try:
         while True:
             now = datetime.datetime.now()
